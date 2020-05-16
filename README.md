@@ -13,6 +13,7 @@ Unless your code runs very slowly, or your datasets are enormous, the speed of r
 
 Tutorials included are
 
+- 2-naming-objects.Rmd
 - 5-pipes.Rmd
 
 To run a tutorial, open the file in RStudio and click the `Run Document` button that appears above the text.
