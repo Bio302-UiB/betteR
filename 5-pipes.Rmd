@@ -1,0 +1,114 @@
+---
+title: "Using pipes"
+author: Richard J. Telford
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("flair")
+library("dplyr")
+```
+
+
+## Pipes
+
+This tutorial will show you how to use the pipe operator `%>%` in R
+
+## The problem
+
+It is very common to need to run functions on the output of other functions. 
+For example, the following code uses `dplyr::pull` to extract the `Sepal.Width` column from the `iris` data set, then calculates the variance, and then square roots this to give the standard deviation.
+
+```{r without-pipes}
+library("dplyr")
+
+x <- sqrt(var(pull(iris, Sepal.Width), na.rm = TRUE))
+x
+```
+
+It is fairly difficult to read isn't it. 
+It can be difficult to see which argument belongs to each function: sometime an argument gets given to the wrong function resulting in an error or incorrect output.
+
+An alternative way to write this code would be to break it into separate steps
+
+```{r intermediates}
+x <- pull(iris, Sepal.Width)
+x2 <- var(x, na.rm = TRUE)
+x3 <- sqrt(x2)
+x3
+```
+
+This is easier to read, but we end up with a lot of intermediate objects.
+Keeping track of them, especially if the sequence is made longer or the order of the functions is changed, can be difficult.
+Further, if the objects are large, this could cause memory problems, or at least clutter up the environment.
+
+We need a better solution.
+
+## pipes
+
+Pipes can be used to chain functions together. 
+The pipe operator in R is `%>%` (the Rstudio keyboard shortcut is `ctrl-shift-m`). 
+Pipes are available when the 'dplyr' or 'tidyr' packages are loaded (they come from the `magrittr` package). 
+
+This is how we could rewrite the code with pipes.
+
+```{r flair, echo = FALSE}
+decorate("with_pipe") %>% 
+  flair("%>%")
+```
+
+
+```{r with_pipe, include = FALSE}
+x <- iris %>%
+  pull(Sepal.Width) %>% 
+  var(na.rm = TRUE) %>% 
+  sqrt()
+x
+```
+
+The pipe can be read as "and then". So take the `iris` data _and then_ `pull` the `Sepal.Width` column, _and then_ calculate the variance _and then_ square root the result.
+
+The pipe works by passing the result of the function on the left of the pipe to the first argument of the function after the pipe.
+This is why we don't need to explicitly use the data argument in `pull`.
+
+The [tidyverse style guide](https://style.tidyverse.org/pipes.html) states that `%>%` should always have a space before it, and should usually be followed by a new line. 
+This makes the code easier to read.
+
+Chains of commands joined by pipes can be as long as you want, but it can be useful to break the chains into smaller sections if you want to use an intermediate object in several different ways, for example to make a plot and to run a statistical model.
+
+
+## The `.`
+
+Sometimes we don't want to pass the result of the first function to the first argument of the second function.
+
+We either need to name the first argument and the result will go to the first available argument, or safer and more explicitly, use the `.` pronoun to specify where the result should go. 
+
+```{r dot-pronoun, error=TRUE}
+iris %>% lm(Sepal.Length ~ Sepal.Width) # Fails. The data are given to the first argument which should be the formula
+iris %>% lm(formula = Sepal.Length ~ Sepal.Width) # Works. Data are given to first available argument. Confusing
+iris %>% lm(Sepal.Length ~ Sepal.Width, data = .) # Better using . pronoun
+```
+
+## Other pipes
+
+There are some other types of pipe in the `magrittr` package that can be useful occasionally.
+
+For example, the `%$%` pipe makes the names of the columns in the left hand side available to the function on the right hand side. 
+This is useful for functions that do not have a data argument. 
+
+```{r other-pipes}
+library(magrittr)# need to load magrittr package for pipes other than %>%
+iris %$% cor(Sepal.Length, Petal.Length)
+
+#equivalent to 
+iris %>% with(cor(Sepal.Length, Petal.Length))
+
+
+```
+
+I don't use these other pipes very often.
