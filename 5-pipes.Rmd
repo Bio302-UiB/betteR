@@ -10,6 +10,7 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library("learnr")
 library("flair")
 library("dplyr")
 ```
@@ -52,6 +53,9 @@ We need a better solution.
 ## pipes
 
 Pipes can be used to chain functions together. 
+
+###  `%>%`
+
 The pipe operator in R is `%>%` (the Rstudio keyboard shortcut is `ctrl-shift-m`). 
 Pipes are available when the 'dplyr' or 'tidyr' packages are loaded (they come from the `magrittr` package). 
 
@@ -93,10 +97,10 @@ library("dplyr")
 x <- filter(iris, Sepal.Length > 5)
 x1 <- count(x, Species)
 x1
-
 ```
 
 ```{r make-pipes1-solution}
+library("dplyr")
 iris %>% 
   filter(Sepal.Length > 5) %>%
   count(Species)
