@@ -82,6 +82,28 @@ This makes the code easier to read.
 Chains of commands joined by pipes can be as long as you want, but it can be useful to break the chains into smaller sections if you want to use an intermediate object in several different ways, for example to make a plot and to run a statistical model.
 
 
+
+### Your turn
+
+This code finds the number of plants of each species with sepal lengths larger than 5 in the iris dataset. Edit it so that is uses pipes. Check it gives the same results
+
+
+```{r make-pipes1, exercise = TRUE}
+library("dplyr")
+x <- filter(iris, Sepal.Length > 5)
+x1 <- count(x, Species)
+x1
+
+```
+
+```{r make-pipes1-solution}
+iris %>% 
+  filter(Sepal.Length > 5) %>%
+  count(Species)
+```
+
+
+
 ## The `.`
 
 Sometimes we don't want to pass the result of the first function to the first argument of the second function.
