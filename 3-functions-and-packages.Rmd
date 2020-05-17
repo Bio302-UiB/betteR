@@ -55,7 +55,7 @@ To get help of an infix function surround it with backticks.
 
 ## Packages
 
-All functions arranged into packages.
+All functions are arranged into packages.
 
 Some `R` packages, for example, `stats` and `utils`, are automatically loaded when you start `R`.
 
@@ -82,7 +82,7 @@ install.packages("vegan")
 You only need to do this once (unless you need to install a new version of a package), so you should run this directly in the console and not keep it in your script (otherwise it will install the package every time you run the code).
 
 Once you have installed the package, you can use `library()` to load it. 
-You need to do this every time use use it.
+You need to do this every time you use it.
 
 Often you know what package you want to install. 
 If you don't know the name of the package you need for your analyses the [task views](https://cran.r-project.org/web/views/) can help. 
