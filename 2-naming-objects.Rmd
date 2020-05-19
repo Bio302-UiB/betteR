@@ -1,9 +1,9 @@
 ---
-  title: "Naming objects"
+title: "Naming objects"
 output: 
   learnr::tutorial:
-  progressive: true
-allow_skip: true
+    progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 ---
   
@@ -199,7 +199,7 @@ question_checkbox(
   answer("mean", correct = FALSE, message = "It is legal but can be confusing to give objects the same name existing R functions such as `mean`"),
   answer("data", correct = FALSE, message = "`data` is not very informative, especially if you have multiple datasets to analyse"),
   answer("ddd", correct = FALSE, message = "You will never remember what `ddd` represents."),
-  answer("whale_data_North_Atlantic_spring_2019", correct = FALSE, message = "Name is rather long")
+  answer("whale_data_North_Atlantic_spring_2019", correct = FALSE, message = "Name is rather long"),
   random_answer_order = TRUE,
   allow_retry = TRUE,
   try_again = "Be sure to select all three good names!"
